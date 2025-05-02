@@ -59,6 +59,25 @@ public class SistemaBiblioteca {
         }
     }
 
+    public void listarLivrosPorTema(String tema) {
+        if (livros.isEmpty()) {
+            System.out.println("Nenhum livro cadastrado.");
+            return;
+        }
+
+        boolean encontrou = false;
+        for (Livro livro : livros) {
+            if (livro.getTema().equalsIgnoreCase(tema)) {
+                System.out.println(livro);
+                encontrou = true;
+            }
+        }
+
+        if (!encontrou) {
+            System.out.println("Nenhum livro encontrado com o tema: " + tema);
+        }
+    }
+
     public void emprestarLivro(String matricula, String tituloLivro) {
         Usuario usuario = buscarUsuarioPorMatricula(matricula);
         Livro livro = buscarLivroPorTitulo(tituloLivro);
@@ -67,24 +86,37 @@ public class SistemaBiblioteca {
             System.out.println("Usuário não encontrado.");
             return;
         }
+
         if (livro == null) {
             System.out.println("Livro não encontrado.");
             return;
         }
-        if (livro.isEmprestado()) {
-            System.out.println("Livro já está emprestado.");
-            return;
+
+        try {
+            if (livro.isReservado()) {
+                throw new LivroReservadoException("Livro está reservado e não pode ser emprestado.");
+            }
+
+            if (livro.isEmprestado()) {
+                System.out.println("Livro já está emprestado.");
+                return;
+            }
+
+            LocalDate dataEmprestimo = LocalDate.now();
+            LocalDate dataDevolucao = dataEmprestimo.plusDays(7);
+
+            livro.emprestar(usuario.getNome());
+
+            Emprestimo emprestimo = new Emprestimo(usuario, livro, dataEmprestimo, dataDevolucao);
+            emprestimos.add(emprestimo);
+
+            System.out.println("Livro emprestado com sucesso para " + usuario.getNome() + "!");
+            System.out.println("Data de Empréstimo: " + emprestimo.getDataEmprestimo());
+            System.out.println("Data de Devolução: " + emprestimo.getDataDevolucao());
+
+        } catch (LivroReservadoException e) {
+            System.err.println("Erro: " + e.getMessage());
         }
-
-        LocalDate dataEmprestimo = LocalDate.now();
-        LocalDate dataDevolucao = dataEmprestimo.plusDays(7);
-        livro.emprestar(usuario.getNome());
-        Emprestimo emprestimo = new Emprestimo(usuario, livro, dataEmprestimo, dataDevolucao);
-        emprestimos.add(emprestimo);
-
-        System.out.println("Livro emprestado com sucesso para " + usuario.getNome() + "!");
-        System.out.println("Data de Empréstimo: " + emprestimo.getDataEmprestimo());
-        System.out.println("Data de Devolução: " + emprestimo.getDataDevolucao());
     }
 
     public void devolverLivro(String tituloLivro) {
@@ -128,6 +160,14 @@ public class SistemaBiblioteca {
         if (!encontrouEmprestimos) {
             System.out.println("Nenhum empréstimo registrado.");
         }
+    }
+
+    public void exibirRelatorioEstatistico() {
+        System.out.println("\n--- RELATÓRIO DA BIBLIOTECA 📊 ---");
+        System.out.println("Total de livros cadastrados: " + livros.size());
+        System.out.println("Livros emprestados: " + livros.stream().filter(Livro::isEmprestado).count());
+        System.out.println("Livros reservados: " + livros.stream().filter(Livro::isReservado).count());
+        System.out.println("Usuários cadastrados: " + usuarios.size());
     }
 
     private Usuario buscarUsuarioPorMatricula(String matricula) {
