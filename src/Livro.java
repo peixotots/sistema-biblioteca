@@ -4,12 +4,16 @@ public class Livro implements Serializable, Emprestavel, Reservavel {
 
     private String titulo;
     private String autor;
+    private int anoLancamento;
+    private String tema;
     private boolean emprestado;
     private boolean reservado;
 
-    public Livro(String titulo, String autor) {
+    public Livro(String titulo, String autor, int anoLancamento, String tema) {
         this.titulo = titulo;
         this.autor = autor;
+        this.anoLancamento = anoLancamento;
+        this.tema = tema;
         this.emprestado = false;
         this.reservado = false;
     }
@@ -30,6 +34,22 @@ public class Livro implements Serializable, Emprestavel, Reservavel {
         this.autor = autor;
     }
 
+    public int getAnoLancamento() {
+        return anoLancamento;
+    }
+
+    public void setAnoLancamento(int anoLancamento) {
+        this.anoLancamento = anoLancamento;
+    }
+
+    public String getTema() {
+        return tema;
+    }
+
+    public void setTema(String tema) {
+        this.tema = tema;
+    }
+
     public boolean isEmprestado() {
         return emprestado;
     }
@@ -40,36 +60,27 @@ public class Livro implements Serializable, Emprestavel, Reservavel {
 
     @Override
     public void emprestar() {
-        emprestar(null); // Chama o metodo com parâmetro, passando null
+        emprestar(null);
     }
 
     public void emprestar(String nomeUsuario) {
-        if (!emprestado) {
+        if (!emprestado && !reservado) {
             emprestado = true;
-            if (nomeUsuario != null) {
-                System.out.println("\nLivro emprestado com sucesso para " + nomeUsuario + "!");
-            } else {
-                System.out.println("\nLivro emprestado com sucesso!");
-            }
-        } else {
+            System.out.println(nomeUsuario != null
+                    ? "\nLivro emprestado com sucesso para " + nomeUsuario + "!"
+                    : "\nLivro emprestado com sucesso!");
+        } else if (emprestado) {
             System.out.println("\nLivro já está emprestado.");
+        } else {
+            System.out.println("\nLivro está reservado e não pode ser emprestado.");
         }
     }
-
-//    public void emprestar(LocalDate prazo) {
-//        if (!emprestado) {
-//            emprestado = true;
-//            System.out.println("Item emprestado até " + prazo + "!");
-//        } else {
-//            System.out.println("Item já está emprestado.");
-//        }
-//    }
 
     @Override
     public void devolver() {
         if (emprestado) {
             emprestado = false;
-            reservado = false; // Remove a reserva ao devolver o livro
+            reservado = false;
             System.out.println("\nLivro devolvido com sucesso!");
         } else {
             System.out.println("\nLivro não estava emprestado.");
@@ -88,9 +99,11 @@ public class Livro implements Serializable, Emprestavel, Reservavel {
 
     @Override
     public String toString() {
-        return "Título: " + titulo + ", Autor: " + autor +
+        return "Título: " + titulo +
+                ", Autor: " + autor +
+                ", Ano de Lançamento: " + anoLancamento +
+                ", Tema: " + tema +
                 ", Emprestado: " + (emprestado ? "Sim" : "Não") +
                 ", Reservado: " + (reservado ? "Sim" : "Não");
     }
-
 }
