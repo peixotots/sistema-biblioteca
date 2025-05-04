@@ -57,6 +57,7 @@ src/
 ├── EmprestimoNaoPermitidoException.java # Exceção para empréstimos inválidos
 ├── LivroReservadoException.java # Exceção para livros reservados
 └── Main.java                   # Classe principal que inicializa o sistema
+```
 
 ---
 #### Trabalho desenvolvido na disciplina de Programação Orientada a Objetos
