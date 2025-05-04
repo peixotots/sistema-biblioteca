@@ -1,4 +1,4 @@
-public class Aluno extends Usuario {
+public class Aluno extends Usuario implements Persistente {
 
     private String curso;
     private int anoDeIngresso;

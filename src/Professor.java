@@ -1,4 +1,4 @@
-public class Professor extends Usuario {
+public class Professor extends Usuario implements Persistente {
 
     private String departamento;
     private int anoDeContratacao;
