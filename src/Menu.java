@@ -1,8 +1,11 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+// Classe responsável por gerenciar a interação com o usuário
+// Exibe opções de menu e executa as ações selecionadas
 public class Menu {
 
+    // Composição de objetos
     private SistemaBiblioteca sistema;
     private Scanner scanner;
 
@@ -11,13 +14,14 @@ public class Menu {
         sistema = SistemaBiblioteca.carregarDados();
     }
 
+    // Menu principal de interação com o usuário
     public void exibirMenu() {
         int op;
 
         System.out.print("\t====================================\n");
         System.out.print("\t   BEM-VINDO À BIBLIOTECA VIRTUAL\n");
         System.out.print("\t====================================\n");
-        System.out.print("\t       Sistema de Gerenciamento\n");
+        System.out.print("\t      Sistema de Gerenciamento\n");
 
         do {
             System.out.println("\n### MENU ###");
@@ -62,12 +66,15 @@ public class Menu {
                     sistema.salvarDados();
                     System.out.println("\nEncerrando o sistema... Até a próxima! 👋");
                 }
-                default -> System.err.println("\nOpção inválida! Por favor, digite uma opção válida. ⚠️\n");
+                default -> System.err.println("Opção inválida! Por favor, digite uma opção válida. ⚠️\n");
             }
 
         } while (op != 0);
     }
 
+    // Implementação dos metodos responsáveis por executar as ações selecionadas no menu principal
+
+    // Solicita os dados do usuário e o cadastra no sistema
     private void cadastrarUsuario() {
         try {
             System.out.print("Escolha o tipo de usuário (1-Aluno, 2-Professor): ");
@@ -104,6 +111,7 @@ public class Menu {
         }
     }
 
+    // Solicita os dados do livro e o cadastra no sistema
     private void cadastrarLivro() {
         try {
             System.out.print("Título do livro: ");
@@ -127,35 +135,50 @@ public class Menu {
         }
     }
 
+    // Solicita um título ou autor para filtrar os livros e exibe os resultados correspondentes
     private void listarLivrosPorFiltro() {
         System.out.print("Digite o título ou autor para filtrar os livros: ");
         String filtro = scanner.nextLine();
         sistema.listarLivros(filtro);
     }
 
+    // Solicita um tema para filtrar os livros e exibe os resultados correspondentes
     private void listarLivrosPorTema() {
         System.out.print("Digite o tema para filtrar os livros: ");
         String tema = scanner.nextLine();
         sistema.listarLivrosPorTema(tema);
     }
 
+    // Solicita a matrícula do usuário e o título do livro para realizar o empréstimo
+    // Verifica se o livro pode ser emprestado e registra o empréstimo no sistema
     private void emprestarLivro() {
         System.out.print("Matrícula do usuário: ");
         String matricula = scanner.nextLine();
         System.out.print("Título do livro: ");
         String titulo = scanner.nextLine();
-        sistema.emprestarLivro(matricula, titulo);
+
+        try {
+            sistema.emprestarLivro(matricula, titulo);
+        } catch (Exception e) {
+            System.err.println("\n" + e.getMessage());
+        }
     }
 
+    // Solicita o título do livro para realizar a devolução
+    // Verifica se o livro está emprestado e atualiza o status no sistema
     private void devolverLivro() {
         System.out.print("Título do livro: ");
         String titulo = scanner.nextLine();
         sistema.devolverLivro(titulo);
     }
 
+    // Solicita a matrícula do usuário e o título do livro para realizar a reserva
+    // Verifica se o livro pode ser reservado e registra a reserva no sistema
     private void reservarLivro() {
+        System.out.print("Matrícula do usuário: ");
+        String matricula = scanner.nextLine();
         System.out.print("Título do livro: ");
         String titulo = scanner.nextLine();
-        sistema.reservarLivro(titulo);
+        sistema.reservarLivro(matricula, titulo);
     }
 }

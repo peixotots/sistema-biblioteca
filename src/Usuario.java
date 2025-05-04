@@ -1,17 +1,22 @@
 import java.io.Serializable;
 
+// Classe abstrata que serve como base para diferentes tipos de usuários no sistema (molde para as subclasses)
+// Implementa a interface Persistente para permitir a serialização
 public abstract class Usuario implements Serializable, Persistente {
 
     private String nome;
     private String matricula;
     private String email;
 
+    // Construtor da classe abstrata
+    // Inicializa os atributos com os valores fornecidos
     public Usuario(String nome, String matricula, String email) {
         this.nome = nome;
         this.matricula = matricula;
         this.email = email;
     }
 
+    // Metodos de acesso aos atributos da classe (encapsulamento)
     public String getNome() {
         return nome;
     }
@@ -36,5 +41,6 @@ public abstract class Usuario implements Serializable, Persistente {
         this.email = email;
     }
 
+    // Metodo abstrato que deve ser implementado pelas subclasses para exibir os dados do usuário
     public abstract void exibirDados();
 }

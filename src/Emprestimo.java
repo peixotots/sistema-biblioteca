@@ -1,3 +1,7 @@
+// Classe que representa um empréstimo de livro realizado por um usuário
+// Contém informações sobre o usuário, o livro, a data de empréstimo e a data de devolução
+// Implementa a interface Persistente para permitir a serialização de objetos da classe
+
 import java.time.LocalDate;
 
 public class Emprestimo implements Persistente {
@@ -7,6 +11,8 @@ public class Emprestimo implements Persistente {
     private LocalDate dataEmprestimo;
     private LocalDate dataDevolucao;
 
+    // Construtor da classe
+    // Inicializa os atributos com os valores fornecidos
     public Emprestimo(Usuario usuario, Livro livro, LocalDate dataEmprestimo, LocalDate dataDevolucao) {
         this.usuario = usuario;
         this.livro = livro;
@@ -14,6 +20,7 @@ public class Emprestimo implements Persistente {
         this.dataDevolucao = dataDevolucao;
     }
 
+    // Metodos de acesso aos atributos da classe (encapsulamento)
     public Usuario getUsuario() {
         return usuario;
     }
@@ -30,6 +37,8 @@ public class Emprestimo implements Persistente {
         return dataDevolucao;
     }
 
+    // Sobrescrita do metodo toString do Java
+    // Retorna uma representação textual do objeto Emprestimo
     @Override
     public String toString() {
         return "Empréstimo [Usuário: " + usuario.getNome() +
