@@ -9,6 +9,13 @@
 public class Main {
     public static void main(String[] args) {
 
+        // Carrega os dados do arquivo .dat
+        SistemaBiblioteca sistema = Utilidades.carregarDados("dados_biblioteca.dat");
+
+        // Exibe os dados carregados (se necessário)
+        sistema.listarUsuarios();
+        sistema.listarLivros();
+
         // Instancia o objeto Menu para que ele seja carregado
         Menu menu = new Menu();
         menu.exibirMenu();

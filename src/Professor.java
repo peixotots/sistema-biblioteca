@@ -1,8 +1,8 @@
 // Implementação concreta da classe abstrata Usuario
-// Herda da classe abstrata Usuario e implementa a interface Persistente
+// Herda da classe abstrata Usuario
 // Classe que representa um professor no sistema
 
-public class Professor extends Usuario implements Persistente {
+public class Professor extends Usuario {
 
     private String departamento;
     private int anoDeContratacao;

@@ -105,11 +105,11 @@ public class SistemaBiblioteca implements Serializable {
             Livro livro = buscarLivroPorTitulo(tituloLivro);
 
             if (livro.isReservado()) {
-                throw new LivroReservadoException("\nLivro está reservado e não pode ser emprestado.");
+                throw new LivroReservadoException("Livro está reservado e não pode ser emprestado.");
             }
 
             if (livro.isEmprestado()) {
-                throw new EmprestimoNaoPermitidoException("\nLivro já está emprestado.");
+                throw new EmprestimoNaoPermitidoException("Livro já está emprestado.");
             }
 
             LocalDate dataEmprestimo = LocalDate.now();
@@ -216,27 +216,18 @@ public class SistemaBiblioteca implements Serializable {
                 return livro;
             }
         }
-        throw new LivroNaoEncontradoException("\nLivro com título \"" + titulo + "\" não encontrado.");
+        throw new LivroNaoEncontradoException("Livro com título \"" + titulo + "\" não encontrado.");
     }
 
-    // Salva os dados do sistema em um arquivo
+    // Salva os dados do sistema em um arquivo .dat
+    // Utiliza a classe Utilidades para serializar o objeto SistemaBiblioteca
     public void salvarDados() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("dados_biblioteca.ser"))) {
-            oos.writeObject(this);
-            System.out.println("\nDados salvos com sucesso!");
-        } catch (IOException e) {
-            System.err.println("\nErro ao salvar os dados: " + e.getMessage());
-        }
+        Utilidades.salvarDados(this, "dados_biblioteca.dat");
     }
 
-    // Carrega os dados do sistema a partir de um arquivo
-    // Retorna uma nova instância do sistema caso o arquivo não seja encontrado ou esteja corrompido
+    // Método estático que carrega os dados do sistema a partir do arquivo .dat
+    // Utiliza a classe Utilidades para desserializar o objeto SistemaBiblioteca
     public static SistemaBiblioteca carregarDados() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("dados_biblioteca.ser"))) {
-            return (SistemaBiblioteca) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Arquivo de dados não encontrado ou corrompido. Iniciando sistema novo...");
-            return new SistemaBiblioteca();
-        }
+        return Utilidades.carregarDados("dados_biblioteca.dat");
     }
 }

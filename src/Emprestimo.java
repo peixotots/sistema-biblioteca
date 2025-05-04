@@ -1,10 +1,10 @@
 // Classe que representa um empréstimo de livro realizado por um usuário
 // Contém informações sobre o usuário, o livro, a data de empréstimo e a data de devolução
-// Implementa a interface Persistente para permitir a serialização de objetos da classe
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Emprestimo implements Persistente {
+public class Emprestimo implements Serializable {
 
     private Usuario usuario;
     private Livro livro;

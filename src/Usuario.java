@@ -2,7 +2,7 @@ import java.io.Serializable;
 
 // Classe abstrata que serve como base para diferentes tipos de usuários no sistema (molde para as subclasses)
 // Implementa a interface Persistente para permitir a serialização
-public abstract class Usuario implements Serializable, Persistente {
+public abstract class Usuario implements Serializable {
 
     private String nome;
     private String matricula;

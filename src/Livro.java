@@ -1,9 +1,11 @@
 import java.io.Serializable;
 
 // Classe que representa um livro no sistema de biblioteca
-// Implementa as interfaces Emprestavel, Reservavel, Persistente e Serializable
+// Implementa as interfaces Emprestavel, Reservavel e Serializable
+// A implementação de Serializable permite que objetos da classe Livro sejam salvos em arquivos e carregados posteriormente
+// A serialização converte o arquivo em um formato binário e desserialização reconstrói o arquivo a partir desse formato, possibilitando que sejam salvos em arquivos
 
-public class Livro implements Serializable, Emprestavel, Reservavel, Persistente {
+public class Livro implements Serializable, Emprestavel, Reservavel {
 
     private String titulo;
     private String autor;
@@ -76,13 +78,10 @@ public class Livro implements Serializable, Emprestavel, Reservavel, Persistente
     public void emprestar(String nomeUsuario) {
         if (!emprestado && !reservado) {
             emprestado = true;
-            System.out.println(nomeUsuario != null
-                    ? "\nLivro emprestado com sucesso para " + nomeUsuario + "!"
-                    : "\nLivro emprestado com sucesso!");
         } else if (emprestado) {
-            System.out.println("\nLivro já está emprestado.");
+            System.out.println("Livro já está emprestado.");
         } else {
-            System.out.println("\nLivro está reservado e não pode ser emprestado.");
+            System.out.println("Livro está reservado e não pode ser emprestado.");
         }
     }
 
@@ -105,7 +104,6 @@ public class Livro implements Serializable, Emprestavel, Reservavel, Persistente
     public void reservar() {
         if (!emprestado && !reservado) {
             reservado = true;
-            System.out.println("\nLivro reservado com sucesso!");
         } else {
             System.out.println("\nReserva não realizada. O livro encontra-se emprestado.");
         }
