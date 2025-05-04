@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class Livro implements Serializable, Emprestavel, Reservavel {
+public class Livro implements Serializable, Emprestavel, Reservavel, Persistente {
 
     private String titulo;
     private String autor;

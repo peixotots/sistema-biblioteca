@@ -7,8 +7,8 @@ public class Menu {
     private Scanner scanner;
 
     public Menu() {
-        sistema = new SistemaBiblioteca();
         scanner = new Scanner(System.in);
+        sistema = SistemaBiblioteca.carregarDados();
     }
 
     public void exibirMenu() {
@@ -32,7 +32,7 @@ public class Menu {
             System.out.println("9. Reservar Livro 📌");
             System.out.println("10. Listar empréstimos 📋");
             System.out.println("11. Exibir relatório da biblioteca 📊");
-            //    System.out.println("12. Salvar dados em um arquivo 💾 ");
+            System.out.println("12. Salvar dados em um arquivo 💾");
             System.out.println("0. Sair do sistema ❌");
             System.out.print("Escolha uma opção: ");
 
@@ -57,8 +57,11 @@ public class Menu {
                 case 9 -> reservarLivro();
                 case 10 -> sistema.listarEmprestimos();
                 case 11 -> sistema.exibirRelatorioEstatistico();
-                //case 12 ->
-                case 0 -> System.out.println("\nEncerrando o sistema... Até a próxima! 👋");
+                case 12 -> sistema.salvarDados();
+                case 0 -> {
+                    sistema.salvarDados();
+                    System.out.println("\nEncerrando o sistema... Até a próxima! 👋");
+                }
                 default -> System.err.println("\nOpção inválida! Por favor, digite uma opção válida. ⚠️\n");
             }
 
@@ -97,7 +100,7 @@ public class Menu {
             }
         } catch (InputMismatchException e) {
             System.err.println("Entrada inválida! Use apenas números onde for solicitado.");
-            scanner.nextLine(); // limpa o buffer
+            scanner.nextLine();
         }
     }
 
@@ -120,7 +123,7 @@ public class Menu {
 
         } catch (InputMismatchException e) {
             System.err.println("Entrada inválida! O ano de lançamento deve ser um número.");
-            scanner.nextLine(); // limpa o buffer
+            scanner.nextLine();
         }
     }
 
@@ -141,21 +144,18 @@ public class Menu {
         String matricula = scanner.nextLine();
         System.out.print("Título do livro: ");
         String titulo = scanner.nextLine();
-
         sistema.emprestarLivro(matricula, titulo);
     }
 
     private void devolverLivro() {
         System.out.print("Título do livro: ");
         String titulo = scanner.nextLine();
-
         sistema.devolverLivro(titulo);
     }
 
     private void reservarLivro() {
         System.out.print("Título do livro: ");
         String titulo = scanner.nextLine();
-
         sistema.reservarLivro(titulo);
     }
 }

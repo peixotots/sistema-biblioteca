@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 
-public class Emprestimo {
+public class Emprestimo implements Persistente {
 
     private Usuario usuario;
     private Livro livro;
@@ -32,7 +32,9 @@ public class Emprestimo {
 
     @Override
     public String toString() {
-        return "Empréstimo [Usuário: " + usuario.getNome() + ", Livro: " + livro.getTitulo() +
-                ", Data de Empréstimo: " + dataEmprestimo + ", Data de Devolução: " + dataDevolucao + "]";
+        return "Empréstimo [Usuário: " + usuario.getNome() +
+                ", Livro: " + livro.getTitulo() +
+                ", Data de Empréstimo: " + dataEmprestimo +
+                ", Data de Devolução: " + dataDevolucao + "]";
     }
 }

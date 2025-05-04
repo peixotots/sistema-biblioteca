@@ -1,8 +1,11 @@
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SistemaBiblioteca {
+public class SistemaBiblioteca implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private List<Usuario> usuarios;
     private List<Livro> livros;
@@ -186,5 +189,23 @@ public class SistemaBiblioteca {
             }
         }
         return null;
+    }
+
+    public void salvarDados() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("dados_biblioteca.ser"))) {
+            oos.writeObject(this);
+            System.out.println("Dados salvos com sucesso!");
+        } catch (IOException e) {
+            System.err.println("Erro ao salvar os dados: " + e.getMessage());
+        }
+    }
+
+    public static SistemaBiblioteca carregarDados() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("dados_biblioteca.ser"))) {
+            return (SistemaBiblioteca) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Arquivo de dados não encontrado ou corrompido. Iniciando sistema novo...");
+            return new SistemaBiblioteca();
+        }
     }
 }
